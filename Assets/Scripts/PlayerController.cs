@@ -6,12 +6,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public delegate void PlayerControllerDelegate();
+    //public delegate void PlayerControllerDelegate();
 
-    //private PlayerControllerDelegate _playerDelegate;
     [SerializeField] private float _playSpeed = 350f;
     [SerializeField] private FoodProjectile _foodProjectile;
     [SerializeField] private Transform _throwPivot;
+    [SerializeField] private Timer _timer;
+
     private Rigidbody _rb;
     private bool isPauseFlag;
 
@@ -27,6 +28,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!_timer.isTimeOver())
+        {
+
+        }
+
         if (!IsPause())
         {
             //_playerDelegate();
@@ -75,7 +81,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool IsPause()
+    public bool IsPause()
     {
         if (isPauseFlag)
         {

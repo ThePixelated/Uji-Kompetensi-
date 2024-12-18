@@ -6,7 +6,8 @@ public class EnemySpawn : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _enemyPrefabs;
     [SerializeField] private List<float> _enemysSpeed = new List<float>(){ 250f, 300f, 350f, 150f };
-    
+
+    [SerializeField] private Timer _timer;
     [SerializeField] private bool spawnEnable;
 
     private void Start()
@@ -16,7 +17,7 @@ public class EnemySpawn : MonoBehaviour
 
     void Update()
     {
-        if (spawnEnable)
+        if (!_timer.isTimeOver() && spawnEnable)
         {
             Debug.Log("Spawn enemy");
             spawnEnable = false;

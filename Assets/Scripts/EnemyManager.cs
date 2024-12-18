@@ -13,6 +13,7 @@ public class EnemyManager : MonoBehaviour
         anim = GetComponent<Animation>();
 
         _scoreSystem = GameObject.Find("ScoreManager").GetComponent<ScoreSystem>();
+        //_timer = GameObject.Find("TimerManager").GetComponent<Timer>();
     }
 
     private void OnTriggerEnter(Collider other)
