@@ -10,7 +10,7 @@ public class UIManagement : MonoBehaviour
     [SerializeField] private GameObject HUD;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Timer timer;
-
+    //[SerializeField] private Audio audio
     void Update()
     {
         if (timer.isTimeOver())
