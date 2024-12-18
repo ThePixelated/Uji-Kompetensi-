@@ -24,5 +24,7 @@ public class FoodProjectile : MonoBehaviour
 
         if (foodVelocity != null)
             foodVelocity.velocity = new Vector3(0f, 0f, _projectileSpeed * Time.deltaTime);
+
+        Destroy(gameObject, 3);
     }
 }
