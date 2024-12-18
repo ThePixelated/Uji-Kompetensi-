@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))    // Lempar Makanan
         {
             _foodProjectile.SpawnFood(_throwPivot);
+            //_foodProjectile.DestroyFood(3f);
         }
         else if (Input.GetMouseButtonDown(0))
         {
