@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,44 +8,91 @@ public class PlayerController : MonoBehaviour
 
     public delegate void PlayerControllerDelegate();
 
-    private PlayerControllerDelegate _playerControls;
+    //private PlayerControllerDelegate _playerDelegate;
+    [SerializeField] private float _playSpeed = 350f;
+    [SerializeField] private FoodProjectile _foodProjectile;
+    [SerializeField] private Transform _throwPivot;
+    private Rigidbody _rb;
+    private bool isPauseFlag;
 
     private void Start()
     {
         Debug.Log("Test");
 
-        _playerControls += Movement;
-        _playerControls += Controller;
+        //_playerDelegate += PlayerControls;
+        //_playerDelegate += Controller;
+
+        _rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        _playerControls();
+        if (!IsPause())
+        {
+            //_playerDelegate();
+            PlayerControls();
+            Controller();
+        } else
+        {
+            //_playerDelegate();
+            Controller();
+        }
     }
 
-    private void Movement()
+    private void PlayerControls()
     {
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))     // Key bind ke kiri
         {
-            Debug.Log("Go to the left");
+            Debug.Log("Left key");
+            _rb.velocity = new Vector3(_playSpeed * Time.deltaTime * -1, 0f, 0f);
+        }
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))    // Key bind ke kanan
+        {
+            Debug.Log("Right key");
+            _rb.velocity = new Vector3(_playSpeed * Time.deltaTime, 0f, 0f);
+        }
+        else
+        {
+            _rb.velocity = new Vector3(0, 0f, 0f);
         }
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))    // Key bind ke kanan
+        if (Input.GetKeyDown(KeyCode.Space))    // Lempar Makanan
         {
-            Debug.Log("Go to the right");
+            _foodProjectile.SpawnFood(_throwPivot);
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Lempar Makanan - Mouse");
         }
     }
 
     private void Controller()
     {
-        if (Input.GetKey(KeyCode.Escape))     // ESC pause menu
+        if (Input.GetKeyDown(KeyCode.Escape))     // ESC pause menu
         {
-            Debug.Log("Escape Pressed");
+            isPauseFlag = !isPauseFlag;
         }
+    }
 
-        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))    // Lempar Makanan
+    private bool IsPause()
+    {
+        if (isPauseFlag)
         {
-            Debug.Log("Lempar Makanan");
+            //Debug.Log("Pause Enable");
+            Time.timeScale = 0;
+            //_playerDelegate -= PlayerControls;
+
+            // Activate Pause Menu
+
+            return true;
+        }
+        else
+        {
+            //Debug.Log("Pause Disable");
+            Time.timeScale = 1;
+            //_playerDelegate += PlayerControls;
+
+            return false;
         }
     }
 }
